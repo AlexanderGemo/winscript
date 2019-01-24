@@ -63,4 +63,4 @@ Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table
         } 
     }
 
-    Get-NetworkStatistics | Format-Table | Out-File C:\Users\ccdc\Desktop\script_reports\script_report.txt
+    Get-NetworkStatistics | Format-Table 
