@@ -2,6 +2,8 @@ ipconfig
 get-process
 Get-Process -IncludeUserName | Select-Object -Property username -Unique | Where-Object { $_ -notmatch 'SYSTEM|admin' }
 Get-CimInstance win32_product | Select-Object Name, PackageName, InstallDate 
+netsh interface ipv4 show interfaces
+
 Get-Service | format-table Displayname, Status,ServiceName 
 Get-WmiObject -Class Win32_Product
 Gwmi Win32_LoggedOnUser | Select Antecedent 
