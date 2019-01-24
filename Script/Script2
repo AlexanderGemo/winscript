@@ -1,6 +1,5 @@
 ipconfig
 get-process
-netstat -ano
 Get-Service | format-table Displayname, Status,ServiceName 
 Get-WmiObject -Class Win32_Product
 Gwmi Win32_LoggedOnUser | Select Antecedent 
@@ -13,7 +12,6 @@ ForEach ($originalFile in $originalFILes) {
 	}
 ipconfig | Out-File C:\Users\ccdc\Desktop\script_reports\script_report.txt
 get-process | Out-File -Append C:\Users\ccdc\Desktop\script_reports\script_report.txt
-netstat -ano | Out-File -Append C:\Users\ccdc\Desktop\script_reports\script_report.txt
 Get-Service | format-table Displayname, Status,ServiceName | Out-File C:\Users\ccdc\Desktop\script_reports\script_report.txt
 Get-WmiObject -Class Win32_Product | Out-File C:\Users\ccdc\Desktop\script_reports\script_report.txt
 Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table -AutoSize | Out-File -Append C:\Users\ccdc\Desktop\script_reports\script_report.txt
