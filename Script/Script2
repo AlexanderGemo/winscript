@@ -3,7 +3,7 @@ get-process
 netstat -ano
 Get-Service | format-table Displayname, Status,ServiceName 
 Get-WmiObject -Class Win32_Product
-Gwmi Win32_LoggOnUser | Select Antecedent 
+Gwmi Win32_LoggedOnUser | Select Antecedent 
 Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table -AutoSize
 $originalFiles = Get-ChildItem "C:\Users\ccdc\Desktop\script_reports" -Filter *.txt
 $x = 1
