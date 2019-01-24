@@ -1,0 +1,21 @@
+ipconfig
+get-process
+netstat -ano
+Get-Service | format-table Displayname, Status,ServiceName 
+Get-WmiObject -Class Win32_Product
+Gwmi Win32_LoggOnUser | Select Antecedent 
+Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table -AutoSize
+$originalFiles = Get-ChildItem "C:\Users\ccdc\Desktop\script_reports" -Filter *.txt
+$x = 1
+ForEach ($originalFile in $originalFILes) {
+	Rename-Item -Path $originalFile.Fullname -NewName (($originalFile.Directory.FullName) + "\" + $x + $originalFile.Name)
+	$x++
+	}
+ipconfig | Out-File C:\Users\ccdc\Desktop\script_reports\script_report.txt
+get-process | Out-File -Append C:\Users\ccdc\Desktop\script_reports\script_report.txt
+netstat -ano | Out-File -Append C:\Users\ccdc\Desktop\script_reports\script_report.txt
+Get-Service | format-table Displayname, Status,ServiceName | Out-File C:\Users\ccdc\Desktop\script_reports\script_report.txt
+Get-WmiObject -Class Win32_Product | Out-File C:\Users\ccdc\Desktop\script_reports\script_report.txt
+Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table -AutoSize | Out-File -Append C:\Users\ccdc\Desktop\script_reports\script_report.txt
+function Get-NetworkStatistics { $properties = ‘Protocol’,’LocalAddress’,’LocalPort’ $properties += ‘RemoteAddress’,’RemotePort’,’State’,’ProcessName’,’PID’ netstat -ano | Select-String -Pattern ‘\s+(TCP|UDP)’ | ForEach-Object { $item = $_.line.split(” “,[System.StringSplitOptions]::RemoveEmptyEntries) if($item[1] -notmatch ‘^\[::’) { if (($la = $item[1] -as [ipaddress]).AddressFamily -eq ‘InterNetworkV6’) { $localAddress = $la.IPAddressToString $localPort = $item[1].split(‘\]:’)[-1] } else { $localAddress = $item[1].split(‘:’)[0] $localPort = $item[1].split(‘:’)[-1] } if (($ra = $item[2] -as [ipaddress]).AddressFamily -eq ‘InterNetworkV6’) { $remoteAddress = $ra.IPAddressToString $remotePort = $item[2].split(‘\]:’)[-1] } else { $remoteAddress = $item[2].split(‘:’)[0] $remotePort = $item[2].split(‘:’)[-1] } New-Object PSObject -Property @{ PID = $item[-1] ProcessName = (Get-Process -Id $item[-1] -ErrorAction SilentlyContinue).Name Protocol = $item[0] LocalAddress = $localAddress LocalPort = $localPort RemoteAddress =$remoteAddress RemotePort = $remotePort State = if($item[0] -eq ‘tcp’) {$item[3]} else {$null} } | Select-Object -Property $properties } } } Get-NetworkStatistics | Format-Table
+
